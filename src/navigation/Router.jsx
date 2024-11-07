@@ -2,6 +2,8 @@ import { StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../screens/HomeScreen";
 import MovieScreen from "../screens/MovieScreen";
+
+import PersonScreen from "../screens/PersonScreen";
 const Router = () => {
   const Stack = createStackNavigator();
   return (
@@ -15,6 +17,11 @@ const Router = () => {
         name="Movie"
         options={{ headerShown: false }}
         component={MovieScreen}
+      />
+      <Stack.Screen
+        name="Person"
+        options={{ headerShown: false }}
+        component={PersonScreen}
       />
     </Stack.Navigator>
   );
