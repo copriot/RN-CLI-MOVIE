@@ -2,7 +2,7 @@ import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { TouchableOpacity } from "react-native";
 
-const Cast = ({ cast, navigaton }) => {
+const Cast = ({ cast, navigation }) => {
   let personName = "Kanue Reevs";
   let characterName = "John Wick";
   return (
@@ -17,9 +17,7 @@ const Cast = ({ cast, navigaton }) => {
           cast.map((person, index) => {
             return (
               <TouchableOpacity
-                onPress={() =>
-                  NavigationPreloadManager.navigate("Person", person)
-                }
+                onPress={() => navigation.navigate("Person", person)}
                 key={index}
                 className="mr-4 items-center"
               >
