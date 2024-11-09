@@ -16,6 +16,7 @@ import { TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Cast from "../components/Cast";
 import MovieList from "../components/MovieList";
+import Loader from "../components/Loader";
 
 const { width, height } = Dimensions.get("window");
 const ios = Platform.OS == "ios";
@@ -28,6 +29,7 @@ const MovieScreen = () => {
   const navigation = useNavigation();
   const [cast, setCast] = useState([1, 2, 3, 4]);
   const [similarMovies, setSimilarMovies] = useState([1, 2, 3, 4]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     //movie details api
   }, [item]);
@@ -53,61 +55,64 @@ const MovieScreen = () => {
             <HeartIcon size="35" color={isFavourite ? "#fbbf24" : "white"} />
           </TouchableOpacity>
         </SafeAreaView>
-        <View>
-          <Image
-            source={require("../../assets/favicon.png")}
-            style={{ width, height: height * 0.55 }}
-          />
-          <LinearGradient
-            colors={["transparent", "rgba(23,23,23,0.8)", "rgba(23,23,23,1)"]}
-            style={{ width, height: height * 0.4 }}
-            start={{ x: 0.5, y: 0 }}
-            end={{ x: 0.5, y: 1 }}
-            className="absolute bottom-0"
-          />
-        </View>
+        {loading ? (
+          <Loader />
+        ) : (
+          <View>
+            <Image
+              source={require("../../assets/favicon.png")}
+              style={{ width, height: height * 0.55 }}
+            />
+            <LinearGradient
+              colors={["transparent", "rgba(23,23,23,0.8)", "rgba(23,23,23,1)"]}
+              style={{ width, height: height * 0.4 }}
+              start={{ x: 0.5, y: 0 }}
+              end={{ x: 0.5, y: 1 }}
+              className="absolute bottom-0"
+            />
+            {/* movieDetails */}
+
+            <View style={{ marginTop: -(height * 0.19) }} className="space-y-3">
+              <Text className="text-white text-center text-3xl font-bold tracking-wider">
+                {movieName}
+              </Text>
+              {/* status, release,runtime */}
+              <Text className="text-neutral-400 font-semibold text-base text-center">
+                Relaesed * 2020 * 170min
+              </Text>
+              {/* genres */}
+              <View className="flex-row justify-center mx-4 space-x-2">
+                <Text className="text-neutral-400 font-semibold text-base text-center">
+                  Actiom *
+                </Text>
+                <Text className="text-neutral-400 font-semibold text-base text-center">
+                  Thrill *
+                </Text>
+                <Text className="text-neutral-400 font-semibold text-base text-center">
+                  Comedy
+                </Text>
+              </View>
+              {/* Description */}
+              <Text className="text-neutral-400 mx-4 tracking-wide">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Excepturi non quaerat temporibus nostrum officiis rem dolore,
+                dolores magnam soluta animi eos asperiores quisquam sequi nemo
+                ducimus, doloremque placeat autem dolor.
+              </Text>
+            </View>
+
+            {/* cast */}
+            <Cast navigation={navigation} cast={cast} />
+
+            {/* similar movies */}
+            <MovieList
+              title="Similar Movies"
+              hideSeeAll={true}
+              data={similarMovies}
+            />
+          </View>
+        )}
       </View>
-
-      {/* movieDetails */}
-
-      <View style={{ marginTop: -(height * 0.49) }} className="space-y-3">
-        <Text className="text-white text-center text-3xl font-bold tracking-wider">
-          {movieName}
-        </Text>
-        {/* status, release,runtime */}
-        <Text className="text-neutral-400 font-semibold text-base text-center">
-          Relaesed * 2020 * 170min
-        </Text>
-        {/* genres */}
-        <View className="flex-row justify-center mx-4 space-x-2">
-          <Text className="text-neutral-400 font-semibold text-base text-center">
-            Actiom *
-          </Text>
-          <Text className="text-neutral-400 font-semibold text-base text-center">
-            Thrill *
-          </Text>
-          <Text className="text-neutral-400 font-semibold text-base text-center">
-            Comedy
-          </Text>
-        </View>
-        {/* Description */}
-        <Text className="text-neutral-400 mx-4 tracking-wide">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Excepturi
-          non quaerat temporibus nostrum officiis rem dolore, dolores magnam
-          soluta animi eos asperiores quisquam sequi nemo ducimus, doloremque
-          placeat autem dolor.
-        </Text>
-      </View>
-
-      {/* cast */}
-      <Cast navigation={navigation} cast={cast} />
-
-      {/* similar movies */}
-      <MovieList
-        title="Similar Movies"
-        hideSeeAll={true}
-        data={similarMovies}
-      />
     </ScrollView>
   );
 };
