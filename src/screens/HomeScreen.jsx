@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   Bars3CenterLeftIcon,
@@ -17,15 +17,41 @@ import MovieList from "../components/MovieList";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
 import Loader from "../components/Loader";
+import {
+  fetchTrendingMovies,
+  topRatedMovies,
+  upComingMovies,
+} from "../api/moviedb";
 
 const ios = Platform.OS == "ios";
 
 const HomeScreen = () => {
-  const [trending, setTrending] = useState([1, 2, 3]);
-  const [upcoming, setUpcoming] = useState([1, 2, 3]);
-  const [topRated, setToprated] = useState([1, 2, 3]);
-  const [loading, setLoading] = useState(false);
+  const [trending, setTrending] = useState([]);
+  const [upcoming, setUpcoming] = useState([]);
+  const [topRated, setToprated] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
+  useEffect(() => {
+    getTrendingMovies();
+    getUpComingMovies();
+    getTopratedMovies();
+  }, []);
+  const getTrendingMovies = async () => {
+    const data = await fetchTrendingMovies();
+    //  console.log("veri geldiii", data);
+    if (data && data.results) setTrending(data.results);
+    setLoading(false);
+  };
+  const getUpComingMovies = async () => {
+    const data = await upComingMovies();
+    //  console.log("veri geldiii", data);
+    if (data && data.results) setUpcoming(data.results);
+  };
+  const getTopratedMovies = async () => {
+    const data = await topRatedMovies();
+    //  console.log("veri geldiii", data);
+    if (data && data.results) setToprated(data.results);
+  };
   return (
     <View className="flex-1 bg-neutral-800">
       {/* SearchBarAndLogo */}
@@ -51,7 +77,7 @@ const HomeScreen = () => {
           contentContainerStyle={{ paddingBottom: 10 }}
         >
           {/* Trending movies carousel */}
-          <TrendingMovies data={trending} />
+          {trending.length > 0 && <TrendingMovies data={trending} />}
 
           {/* upcoming movie row */}
           <MovieList title="Upcoming" data={upcoming} />

@@ -9,6 +9,7 @@ import {
 import React from "react";
 import Carousel from "react-native-new-snap-carousel";
 import { useNavigation } from "@react-navigation/native";
+import { image500 } from "../api/moviedb";
 
 const { width, height } = Dimensions.get("window");
 const TrendingMovies = ({ data }) => {
@@ -18,7 +19,7 @@ const TrendingMovies = ({ data }) => {
   };
   return (
     <View className="mb-8">
-      <Text className="text-white text-xl mx-4 mb-5">TrendingMovies</Text>
+      <Text className="text-white text-xl mx-4 mb-5 mt-5">TrendingMovies</Text>
       <Carousel
         data={data}
         renderItem={({ item }) => (
@@ -34,10 +35,11 @@ const TrendingMovies = ({ data }) => {
   );
 };
 const MovieCard = ({ item, handleClick }) => {
+  //console.log("POSTERPATH GELDİİİ", item.poster_path);
   return (
     <TouchableWithoutFeedback onPress={() => handleClick(item)}>
       <Image
-        source={require("../../assets/favicon.png")}
+        source={{ uri: image500(item.poster_path) }}
         style={{
           width: width * 0.6,
           height: height * 0.4,
