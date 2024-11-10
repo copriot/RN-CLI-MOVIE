@@ -18,6 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
 import Loader from "../components/Loader";
 import {
+  fetchSimilarMovies,
   fetchTrendingMovies,
   topRatedMovies,
   upComingMovies,
@@ -52,6 +53,7 @@ const HomeScreen = () => {
     //  console.log("veri geldiii", data);
     if (data && data.results) setToprated(data.results);
   };
+
   return (
     <View className="flex-1 bg-neutral-800">
       {/* SearchBarAndLogo */}
